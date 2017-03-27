@@ -1,0 +1,7 @@
+atomic
+consistency
+isolation 
+duribility
+
+java 采用对象锁机制实现线程同步
+数据库采用数据库锁机制保证事物的隔离性

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.nantian.com.cn/rmc/schema/navi" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.nantian.com.cn/rmc/schema/navi" 
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	
+	<xsd:element name="root">
+		<xsd:annotation><xsd:documentation><![CDATA[导航根]]></xsd:documentation></xsd:annotation>
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="menu"/>
+			</xsd:choice>
+			<xsd:attribute name="menu_id" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[导航id]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_text" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[导航名称]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_type" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[节点类型 【0:中间节点 1:叶子节点 2:根节点  3:权限节点】]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="menu">
+		<xsd:annotation><xsd:documentation><![CDATA[导航项]]></xsd:documentation></xsd:annotation>
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="auth"/>
+				<xsd:element ref="menu"/>
+			</xsd:choice>
+			
+			<xsd:attribute name="menu_id" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[导航id]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_text" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[导航名称]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_type" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[节点类型 【0:中间节点 1:叶子节点 2:根节点  3:权限节点】]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="url_text" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[导航对应页面]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="auth">
+		<xsd:annotation><xsd:documentation><![CDATA[权限]]></xsd:documentation></xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="menu_id" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[权限id]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_text" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[权限名称]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="menu_type" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[节点类型 【0:中间节点 1:叶子节点 2:根节点  3:权限节点】]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

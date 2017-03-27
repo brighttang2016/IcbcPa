@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+				http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	<!-- 文件说明：系统业务逻辑上下文 -->
+	<!-- **********************excel处理开始********************** -->
+<!-- 文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	<bean id="mediumBus" class="com.icbc.nt.bus.MediumBus" parent="busParent"></bean>
+	
+	<bean id="fileTranImpl" class="com.icbc.nt.util.FileTranImpl"/>
+	<bean id="excelBusImpl" class="com.icbc.nt.excel.ExcelBusImpl" parent="busParent"/>
+	
+	<bean id="excelf10015" class="com.icbc.nt.excel.Excelf10015" parent="busParent"/>
+	<bean id="excelf30011" class="com.icbc.nt.excel.Excelf30011" parent="busParent"/>
+	<bean id="excelf30062" class="com.icbc.nt.excel.Excelf30062" parent="busParent"/>
+	<bean id="excelf30064" class="com.icbc.nt.excel.Excelf30064" parent="busParent"/>
+	<bean id="excelf30066" class="com.icbc.nt.excel.Excelf30066" parent="busParent"/>
+	<bean id="excelf30068" class="com.icbc.nt.excel.Excelf30068" parent="busParent"/>
+	<bean id="excelf30084" class="com.icbc.nt.excel.Excelf30084" parent="busParent"/>
+	<bean id="excelf30054" class="com.icbc.nt.excel.Excelf30054" parent="busParent"/>
+	<bean id="excelf30094" class="com.icbc.nt.excel.Excelf30094" parent="busParent"/>
+	<bean id="excelf30102" class="com.icbc.nt.excel.Excelf30102" parent="busParent"/>
+	<bean id="excelf30112" class="com.icbc.nt.excel.Excelf30112" parent="busParent"/>
+	<bean id="excelf30122" class="com.icbc.nt.excel.Excelf30122" parent="busParent"/>
+	<bean id="excelf30132" class="com.icbc.nt.excel.Excelf30132" parent="busParent"/>
+	<!-- <bean id="excelf30052" class="com.icbc.nt.excel.Excelf30052" parent="busParent"/>
+	<bean id="excelf30053" class="com.icbc.nt.excel.Excelf30053" parent="busParent"/> -->
+	<bean id="excelf00000000" class="com.icbc.nt.excel.Excelf00000000" parent="busParent"/>
+	<bean id="excelf10000052" class="com.icbc.nt.excel.Excelf10000052" parent="busParent"/>
+	<bean id="excelf10000055" class="com.icbc.nt.excel.Excelf10000055" parent="busParent"/>
+	<bean id="excelf10000068" class="com.icbc.nt.excel.Excelf10000068" parent="busParent"/>
+	<bean id="excelf10000073" class="com.icbc.nt.excel.Excelf10000073" parent="busParent"/>
+	<bean id="excelf20000001" class="com.icbc.nt.excel.Excelf20000001" parent="busParent" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	<bean id="excelf20000003" class="com.icbc.nt.excel.Excelf20000003" parent="busParent" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	<bean id="excelf20000005" class="com.icbc.nt.excel.Excelf20000005" parent="busParent" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	<bean id="excelf20000013" class="com.icbc.nt.excel.Excelf20000013" parent="busParent" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	<!-- 消息推送 -->
+	<bean id="messagePushClient" class="com.icbc.message.push.MessagePushClient"/>
+	
+	<!-- 消息发布者 -->
+	<bean id="fileUploadBusTarget" class="com.icbc.nt.bus.FileUploadBus" parent="busParent">
+		<property name="listenerSet"><!-- 监听者集合(注册监听者对象) -->
+			<set>
+				<ref bean="excelf10015"/>
+				<ref bean="excelf30011"/>
+				<ref bean="excelf30062"/>
+				<ref bean="excelf30064"/>
+				<ref bean="excelf30066"/>
+				<ref bean="excelf30068"/>
+				<ref bean="excelf30084"/>
+				<ref bean="excelf30054"/>
+				<ref bean="excelf30094"/>
+				<ref bean="excelf30102"/>
+				<ref bean="excelf30112"/>
+				<ref bean="excelf30122"/>
+				<ref bean="excelf30132"/>
+				<!-- <ref bean="excelf30052"/>
+				<ref bean="excelf30053"/> -->
+				<ref bean="excelf00000000"/>
+				<ref bean="excelf10000052"/>
+				<ref bean="excelf10000055"/>
+				<ref bean="excelf10000068"/>
+				<ref bean="excelf10000073"/>
+				<ref bean="excelf20000001"/>
+				<ref bean="excelf20000003"/>
+				<ref bean="excelf20000005"/>
+				<ref bean="excelf20000013"/>
+			</set>
+		</property>
+	</bean>
+	<!-- **********************excel处理结束********************** -->
+		<!-- ************************业务逻辑原子命令开始*************************** -->
+	<bean id="busDispatcherImpl" class="com.icbc.nt.bus.dispatcher.BusDispatcherImpl" parent="busParent"/>
+	
+	
+	
+	<bean id="zbQueryCm" class="com.icbc.nt.bus.command.ZbQueryCm" parent="busParent"/> 
+	<bean id="zbQueryRec" class="com.icbc.nt.bus.receiver.ZbQueryRec" parent="busParent"/>
+	<!-- 网点柜员手动可分配总包查询 -->
+	<bean id="zbSdfpQueryCm" class="com.icbc.nt.bus.command.ZbSdfpQueryCm" parent="busParent"/> 
+	<bean id="zbSdfpQueryRec" class="com.icbc.nt.bus.receiver.ZbSdfpQueryRec" parent="busParent"/>
+	<!-- excel 用户id校验 -->
+	<bean id="exlUserValidateCm" class="com.icbc.nt.bus.command.ExlUserValidateCm" parent="busParent"/>
+	<bean id="exlUserValidateRcv" class="com.icbc.nt.bus.receiver.ExlUserValidateRcv" parent="busParent"/>
+	<!-- 绩效计算 -->
+	<bean id="jxCalcCm" class="com.icbc.nt.bus.command.JxCalcCm" parent="busParent"/>
+	<bean id="jxCalcRcv" class="com.icbc.nt.bus.receiver.JxCalcRcv" parent="busParent"/>
+	<!-- 职务层级管理 -->
+	<bean id="zwcjCm" class="com.icbc.nt.bus.command.ZwcjCm"/>
+	<bean id="zwcjRcv" class="com.icbc.nt.bus.receiver.ZwcjRcv" parent="busParent"/>
+	<!-- 绩效计算:业务量(网点考核) -->
+	<bean id="jxYwlCalcCm" class="com.icbc.nt.bus.command.JxYwlCalcCm"/>
+	<bean id="jxYwlCalcRcv" class="com.icbc.nt.bus.receiver.JxYwlCalcRcv" parent="busParent"/>
+	<!-- 绩效计算:业务量(支行考核) -->
+	<bean id="jxYwlCalcZhCm" class="com.icbc.nt.bus.command.JxYwlCalcZhCm"/>
+	<bean id="jxYwlCalcZhRcv" class="com.icbc.nt.bus.receiver.JxYwlCalcZhRcv" parent="busParent"/>
+	<!-- 绩效计算:标准产品(网点考核) -->
+	<bean id="jxBzcpCalcCm" class="com.icbc.nt.bus.command.JxBzcpCalcCm"/>
+	<bean id="jxBzcpCalcRcv" class="com.icbc.nt.bus.receiver.JxBzcpCalcRcv" parent="busParent"/>
+	<!-- 绩效计算:标准产品(支行考核) -->
+	<bean id="jxBzcpCalcZhCm" class="com.icbc.nt.bus.command.JxBzcpCalcZhCm"/>
+	<bean id="jxBzcpCalcZhRcv" class="com.icbc.nt.bus.receiver.JxBzcpCalcZhRcv" parent="busParent"/>
+	<!-- 绩效计算:支行特色产品 -->
+	<bean id="jxZhtsCalcCm" class="com.icbc.nt.bus.command.JxZhtsCalcCm"/>
+	<bean id="jxZhtsCalcRcv" class="com.icbc.nt.bus.receiver.JxZhtsCalcRcv" parent="busParent"/>
+	<!-- 绩效计算:支行特色产品(支行考核) -->
+	<bean id="jxZhtsCalcZhCm" class="com.icbc.nt.bus.command.JxZhtsCalcZhCm"/>
+	<bean id="jxZhtsCalcZhRcv" class="com.icbc.nt.bus.receiver.JxZhtsCalcZhRcv" parent="busParent"/>
+	<!-- 绩效计算:定性 -->
+	<bean id="jxDxCalcCm" class="com.icbc.nt.bus.command.JxDxCalcCm"/>
+	<bean id="jxDxCalcRcv" class="com.icbc.nt.bus.receiver.JxDxCalcRcv" parent="busParent"/>
+	<!-- 绩效计算:定性(支行考核)-->
+	<bean id="jxDxCalcZhCm" class="com.icbc.nt.bus.command.JxDxCalcZhCm"/>
+	<bean id="jxDxCalcZhRcv" class="com.icbc.nt.bus.receiver.JxDxCalcZhRcv" parent="busParent"/>
+	<!-- 机构下属网点查询 -->
+	<bean id="wdQueryCm" class="com.icbc.nt.bus.command.WdQueryCm"/>
+	<bean id="wdQueryRcv" class="com.icbc.nt.bus.receiver.WdQueryRcv" parent="busParent"/>
+	<!-- 生成绩效文件 -->
+	<bean id="jxFileWriteCm" class="com.icbc.nt.bus.command.JxFileWriteCm"/>
+	<bean id="jxFileWriteRcv" class="com.icbc.nt.bus.receiver.JxFileWriteRcv" parent="busParent"/>
+	<!-- 用户绩效表初始化 -->
+	<bean id="userJxInitCm" class="com.icbc.nt.bus.command.UserJxInitCm"/>
+	<bean id="userJxInitRcv" class="com.icbc.nt.bus.receiver.UserJxInitRcv" parent="busParent"/>
+	<!-- 机构树查询 -->
+	<bean id="orgTreeQueryCm" class="com.icbc.nt.bus.command.OrgTreeQueryCm"/>
+	<bean id="orgTreeQueryRcv" class="com.icbc.nt.bus.receiver.OrgTreeQueryRcv" parent="busParent"/>
+	<!-- 用户机构查询 -->
+	<bean id="userOrgQueryCm" class="com.icbc.nt.bus.command.UserOrgQueryCm"/>
+	<bean id="userOrgQueryRcv" class="com.icbc.nt.bus.receiver.UserOrgQueryRcv" parent="busParent"/>
+	<!-- 用户所有可见机构查询 -->
+	<bean id="userOrgInCm" class="com.icbc.nt.bus.command.UserOrgInCm"/>
+	<bean id="userOrgInRcv" class="com.icbc.nt.bus.receiver.UserOrgInRcv" parent="busParent"/>
+	<!-- 绩效周期查询 -->
+	<bean id="jxZqQueryCm" class="com.icbc.nt.bus.command.JxZqQueryCm"/>
+	<bean id="jxZqQueryRcv" class="com.icbc.nt.bus.receiver.JxZqQueryRcv" parent="busParent"/>
+	
+	<!-- 机构下属客户经理总人数查询 -->
+	<bean id="countKhjlCm" class="com.icbc.nt.bus.command.CountKhjlCm"/>
+	<bean id="countKhjlRcv" class="com.icbc.nt.bus.receiver.CountKhjlRcv" parent="busParent"/>
+	<!--机构各种人数查询服务  -->
+	<bean id="orgRsQueryCm" class="com.icbc.nt.bus.command.OrgRsQueryCm"/>
+	<bean id="orgRsQueryRcv" class="com.icbc.nt.bus.receiver.OrgRsQueryRcv" parent="busParent"/>
+	<!-- 初始化总包人均表t_ntmisc_orgzbrj与总包人数表t_ntmisc_orgzbrs中与总包相关部分 -->
+	<bean id="zbInitCm" class="com.icbc.nt.bus.command.ZbInitCm"/>
+	<bean id="zbInitRcv" class="com.icbc.nt.bus.receiver.ZbInitRcv" parent="busParent"/>
+	<!-- 剩余总包表操作 -->
+	<bean id="zbSyCm" class="com.icbc.nt.bus.command.ZbSyCm"/>
+	<bean id="zbSyRcv" class="com.icbc.nt.bus.receiver.ZbSyRcv" parent="busParent"/>
+	<!-- 机构所在分支行号查询 -->
+	<bean id="brOrgQueryCm" class="com.icbc.nt.bus.command.BrOrgQueryCm"/>
+	<bean id="brOrgQueryRcv" class="com.icbc.nt.bus.receiver.BrOrgQueryRcv" parent="busParent"/>
+	<!-- 机构总包分配表总包计算 -->
+	<bean id="zbFpCm" class="com.icbc.nt.bus.command.ZbFpCm"/>
+	<bean id="zbFpRcv" class="com.icbc.nt.bus.receiver.ZbFpRcv" parent="busParent"/>
+	
+	<!-- 获取考核周期 -->
+	<bean id="zqCurrCm" class="com.icbc.nt.bus.command.ZqCurrCm"/>
+	<bean id="zqCurrRcv" class="com.icbc.nt.bus.receiver.ZqCurrRcv" parent="busParent"/>
+	
+	<!-- 机构部门初始化 -->
+	<bean id="f10000001Cm" class="com.icbc.nt.bus.command.F10000001Cm"/>
+	<bean id="f10000001Rcv" class="com.icbc.nt.bus.receiver.F10000001Rcv" parent="busParent"/>
+	<!-- 用户初始化 -->
+	<bean id="f10000002Cm" class="com.icbc.nt.bus.command.F10000002Cm"/>
+	<bean id="f10000002Rcv" class="com.icbc.nt.bus.receiver.F10000002Rcv" parent="busParent"/>
+	
+	<!-- 机构分配数据导入结果查询 -->
+	<bean id="f10000053Cm" class="com.icbc.nt.bus.command.F10000053Cm"/>
+	<bean id="f10000053Rcv" class="com.icbc.nt.bus.receiver.F10000053Rcv" parent="busParent"/>
+	<!-- 机构分配结果查询 -->
+	<bean id="f10000054Cm" class="com.icbc.nt.bus.command.F10000054Cm"/>
+	<bean id="f10000054Rcv" class="com.icbc.nt.bus.receiver.F10000054Rcv" parent="busParent"/>
+	<!-- MOVA机构得分导入结果查询 -->
+	<bean id="f10000056Cm" class="com.icbc.nt.bus.command.F10000056Cm"/>
+	<bean id="f10000056Rcv" class="com.icbc.nt.bus.receiver.F10000056Rcv" parent="busParent"/>
+	<!-- 人员分配比例导入结果查询 -->
+	<bean id="f10000069Cm" class="com.icbc.nt.bus.command.F10000069Cm"/>
+	<bean id="f10000069Rcv" class="com.icbc.nt.bus.receiver.F10000069Rcv" parent="busParent"/>
+	<!--绩效计算-->
+	<bean id="f10000070Cm" class="com.icbc.nt.bus.command.F10000070Cm"/>
+	<bean id="f10000070Rcv" class="com.icbc.nt.bus.receiver.F10000070Rcv" parent="busParent"/>
+	<!-- 当期绩效查询-->
+	<bean id="f10000071Cm" class="com.icbc.nt.bus.command.F10000071Cm"/>
+	<bean id="f10000071Rcv" class="com.icbc.nt.bus.receiver.F10000071Rcv" parent="busParent"/>
+	<!-- 当期绩效导出-->
+	<bean id="f10000072Cm" class="com.icbc.nt.bus.command.F10000072Cm"/>
+	<bean id="f10000072Rcv" class="com.icbc.nt.bus.receiver.F10000072Rcv" parent="busParent"/>
+	<!-- 历史绩效查询-->
+	<bean id="f10000080Cm" class="com.icbc.nt.bus.command.F10000080Cm"/>
+	<bean id="f10000080Rcv" class="com.icbc.nt.bus.receiver.F10000080Rcv" parent="busParent"/>
+	<!-- 历史绩效导出-->
+	<bean id="f10000081Cm" class="com.icbc.nt.bus.command.F10000081Cm"/>
+	<bean id="f10000081Rcv" class="com.icbc.nt.bus.receiver.F10000081Rcv" parent="busParent"/>
+	<!--员工业绩导入结果查询 -->
+	<bean id="f20000002Cm" class="com.icbc.nt.bus.command.F20000002Cm"/>
+	<bean id="f20000002Rcv" class="com.icbc.nt.bus.receiver.F20000002Rcv" parent="busParent"/>
+	<!--总包导入结果查询(分支行考核) -->
+	<bean id="f20000004Cm" class="com.icbc.nt.bus.command.F20000004Cm"/>
+	<bean id="f20000004Rcv" class="com.icbc.nt.bus.receiver.F20000004Rcv" parent="busParent"/>
+	<!--总包导入结果查询(网点考核) -->
+	<bean id="f20000006Cm" class="com.icbc.nt.bus.command.F20000006Cm"/>
+	<bean id="f20000006Rcv" class="com.icbc.nt.bus.receiver.F20000006Rcv" parent="busParent"/>
+	<!-- 绩效计算（新版）-->
+	<bean id="f20000007Cm" class="com.icbc.nt.bus.command.F20000007Cm"/>
+	<bean id="f20000007Rcv" class="com.icbc.nt.bus.receiver.F20000007Rcv" parent="busParent"/>
+	<!-- 绩效查询（新版）-->
+	<bean id="f20000008Cm" class="com.icbc.nt.bus.command.F20000008Cm"/>
+	<bean id="f20000008Rcv" class="com.icbc.nt.bus.receiver.F20000008Rcv" parent="busParent"/>
+	<!-- 历史绩效导出-->
+	<bean id="f20000012Cm" class="com.icbc.nt.bus.command.F20000012Cm"/>
+	<bean id="f20000012Rcv" class="com.icbc.nt.bus.receiver.F20000012Rcv" parent="busParent"/>
+	<!-- 网点手动分配绩效导入查询-->
+	<bean id="f20000014Cm" class="com.icbc.nt.bus.command.F20000014Cm"/>
+	<bean id="f20000014Rcv" class="com.icbc.nt.bus.receiver.F20000014Rcv" parent="busParent"/>
+	
+	
+	<!-- 权重区间管理 -->
+	<bean id="qzqjCm" class="com.icbc.nt.bus.command.QzqjCm"/>
+	<bean id="qzqjRcv" class="com.icbc.nt.bus.receiver.QzqjRcv" parent="busParent"/>
+	<!-- 考核任务周期管理 -->
+	<bean id="khrwCm" class="com.icbc.nt.bus.command.KhrwCm"/>
+	<bean id="khrwRcv" class="com.icbc.nt.bus.receiver.KhrwRcv" parent="busParent"/>
+	<!-- 总包占比管理 -->
+	<bean id="zbzbCm" class="com.icbc.nt.bus.command.ZbzbCm"/>
+	<bean id="zbzbRcv" class="com.icbc.nt.bus.receiver.ZbzbRcv" parent="busParent"/>
+<!-- ************************业务逻辑原子命令结束************************ -->
+
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+ 
+ 	<!-- 文件说明：定时任务上下文 -->
+ 	<!-- <context:property-placeholder location="classpath:property.properties"/>
+	<context:component-scan base-package="com.icbc.nt.dom"/>
+	<context:component-scan base-package="com.icbc.nt.bus"/>
+	<context:component-scan base-package="com.icbc.nt.excel"/>
+	<context:component-scan base-package="com.icbc.nt.util"/>
+	<context:component-scan base-package="com.icbc.nt.mail"/>
+	<context:component-scan base-package="com.icbc.message.push"/>
+	<context:component-scan base-package="com.icbc.nt.scheduler"/> -->
+ 
+ 
+	<!-- 邮件发送schedule -->
+<!-- 	<bean id="mailSendScheduler" class="com.icbc.nt.scheduler.MailSendScheduler" parent="schedulerParent"></bean>
+	<task:scheduled-tasks>
+	  <task:scheduled ref="mailSendScheduler" method="mailSend" cron="${consboff_mail_scheduler.timeCronExpression}" />
+	</task:scheduled-tasks> -->
+	
+	<!-- 库存扫描schedule -->
+	<!-- <bean id="ivtScanSchduler" class="com.icbc.nt.scheduler.IvtScanSchduler" parent="schedulerParent">
+		<property name="mailIvtScan" ref="mailIvtScan"></property>
+	</bean>
+	<task:scheduled-tasks>
+	  <task:scheduled ref="ivtScanSchduler" method="ivtScan" cron="${consboff_ivtscan_scheduler.timeCronExpression}" />
+	</task:scheduled-tasks> -->
+	
+	<!-- 订单领取即将超期schedul -->
+	<!-- <bean id="odScanScheduler" class="com.icbc.nt.scheduler.OdScanScheduler" parent="schedulerParent">
+		<property name="fetchTimeout" value="${consboff_applyfetch_timeout}"></property>
+		<property name="mailTimeBegin" value="${consboff_applymail_timebegin}"></property>
+		<property name="ob" ref="orderBus"></property>
+	</bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="odScanScheduler" method="odScan" cron="${consboff_odscan_scheduler.timeCronExpression}"/>
+	</task:scheduled-tasks> -->
+	
+	<!-- 设定定时任务 -->
+	<!-- <task:scheduled-tasks>
+		<task:scheduled ref="batCalcScheduler" method="batScan" cron="${nt_scheduler_batCalcScheduler.timeCronExpression}"/>
+	</task:scheduled-tasks> -->
+	
+</beans>

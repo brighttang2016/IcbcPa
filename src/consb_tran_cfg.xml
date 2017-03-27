@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:nt="http://www.nantian.com.cn/consb/schema/sql"
+	xsi:schemaLocation="http://www.nantian.com.cn/consb/schema/sql nt-icbc-consb-sql.xsd">
+	<!--  -->
+	<nt:consb id="1014" name="耗材物品信息查询">
+		<nt:sql updFlag="4" queryType="1" odName="consb_name" odWay="asc">
+			select c.*,a.spl_id,b.spl_name from t_consb_splkc a,t_consb_spl b,
+           (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,(select a.*,b.type_name type_namep  from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id) b where a.type_id = b.type_id) c
+           where a.spl_id = b.spl_id and a.consb_id = c.consb_id order by consb_name
+		</nt:sql>
+	</nt:consb>
+	
+	<!-- ************************申请管理开始**************************** -->
+	<nt:consb id="2011" name="订单新增">
+		<nt:sql updFlag="1">
+			insert into t_consb_apply(apply_id,apply_time,apply_desc,user_id,sub_tag,cs_state,zb_state,kg_state,cs_id,zb_id,kg_id,dl_state) values(?,?,?,?,?,?,?,?,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2012" name="订单修改">
+		<nt:sql updFlag="2">
+			update t_consb_apply set apply_desc=?,user_id=? where apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2013" name="订单耗材新增">
+		<nt:sql updFlag="1">
+			insert into t_consb_ogs(apply_id,consb_id,gds_num,gds_state,consb_price) values(?,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2014" name="订单耗材修改">
+		<nt:sql updFlag="2">
+			update t_consb_ogs t set t.gds_num=? where t.apply_id=? and t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2015" name="订单耗材删除">
+		<nt:sql updFlag="3">
+			delete t_consb_ogs t  where t.apply_id=? and t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2016" name="订单耗材查询">
+		<nt:sql updFlag="4" queryType="1">
+			  select a.*,b.type_name,b.type_namep,b.type_idp from(
+			 select a.consb_id,a.type_id,a.consb_mn,a.consb_name,a.consb_code,a.consb_unit,a.consb_rm,a.consb_bn,a.consb_sd,consb_unum,
+			 b.gds_num,b.consb_price,b.apply_id  from t_consb_kc a, t_consb_ogs b where a.consb_id = b.consb_id
+			 )a,
+			 (
+			 select a.type_id,a.type_name,b.type_name type_namep,b.type_id type_idp from t_consb_type a
+			 left join t_consb_type b
+			 on a.type_idp = b.type_id
+			 )b
+			 where a.type_id = b.type_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2017" name="订单初始化">
+		<nt:sql updFlag="4" queryType="1">
+			  select a.*,b.user_name,b.org_id,b.org_name from t_consb_apply a,
+			 ( select a.user_id,a.user_name,a.org_id,b.org_name from t_consb_user a
+			 left join t_consb_org b
+			 on a.org_id = b.org_id) b 
+			 where a.user_id = b.user_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2018" name="订单零星需求修改">
+		<nt:sql updFlag="2">
+			update t_consb_apply set temp_desc=? where apply_id=? and user_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2019" name="订单提交">
+		<nt:sql updFlag="2">
+			update t_consb_apply set temp_desc=?,sub_tag=? where apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2021" name="已提交未发货订单查询">
+		<nt:sql updFlag="4" queryType="1">
+			
+select a.*,b.user_name,b.org_id,b.org_name from 
+  (      select a.*,b.user_name kg_name from(
+         select a.*,b.user_name zb_name from(
+            select a.*,b.user_name cs_name from (
+            select t.apply_id,t.apply_time time,t.apply_desc,t.user_id,t.sub_tag,t.cs_id,t.cs_state,t.cs_desc,t.cs_time,
+                     t.zb_id,t.zb_state,t.zb_desc,t.zb_time,t.kg_id,t.kg_state,t.kg_desc,t.kg_time,t.temp_desc,t.dl_time,t.dl_state from t_consb_apply t 
+            )a left join t_consb_user b
+            on a.cs_id = b.user_id
+          )a left join t_consb_user b
+          on a.zb_id = b.user_id  
+          )a left join t_consb_user b
+          on a.kg_id = b.user_id
+            
+  )a left join
+  (select a.user_id,a.user_name,a.user_mail,b.* from t_consb_user a left join t_consb_org b on a.org_id = b.org_id) b
+  on a.user_id = b.user_id
+  order by time desc
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2022" name="申请单打印">
+		<nt:sql updFlag="5" queryType="1">
+			select a.gds_num,b.* from (select t.* from t_consb_ogs t where t.apply_id = ?)a,
+				(select a.*,b.type_idp,b.type_name,b.type_namep from t_consb_kc a,
+				 (select a.*,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id) b
+				 where a.type_id = b.type_id)b
+				 where a.consb_id = b.consb_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2031" name="已领取订单（历史申请）查询">
+		<nt:sql updFlag="4" queryType="2" odName="time" odWay="asc">
+			 select a.*,b.user_name kg_name from(
+         select a.*,b.user_name zb_name from(
+            select a.*,b.user_name cs_name from (
+            select t.apply_id,t.apply_time time,t.apply_desc,t.user_id,t.sub_tag,t.cs_id,t.cs_state,t.cs_desc,t.cs_time,
+                     t.zb_id,t.zb_state,t.zb_desc,t.zb_time,t.kg_id,t.kg_state,t.kg_desc,t.kg_time,t.temp_desc,t.dl_time,t.dl_state from t_consb_apply t 
+            )a left join t_consb_user b
+            on a.cs_id = b.user_id
+          )a left join t_consb_user b
+          on a.zb_id = b.user_id  
+          )a left join t_consb_user b
+          on a.kg_id = b.user_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2032" name="历史订单耗材查询">
+		<nt:sql updFlag="4" queryType="1">
+			select t1.consb_id,t1.type_id,t1.consb_mn,t1.consb_name,t1.consb_unit,t1.consb_num,t1.consb_bstnum,t1.consb_minnum,
+			t1.consb_rm,t1.consb_bn,t1.consb_sd,t1.consb_unum,
+			t2.gds_num,t2.apply_id,t2.consb_price  from t_consb_kc t1, t_consb_ogs t2 where t1.consb_id = t2.consb_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2041" name="待审批申请查询">
+		<nt:sql updFlag="5" queryType="1" odName="time" odWay="desc">
+			select a.*,b.org_id,b.org_name from (
+select t.apply_id,t.apply_time time,t.apply_desc,t.user_id,t.sub_tag,t.cs_id,t.cs_state,t.cs_desc,t.cs_time,
+         t.zb_id,t.zb_state,t.zb_desc,t.zb_time,t.kg_id,t.kg_state,t.kg_desc,t.kg_time,t.temp_desc from(
+    select t.* from t_consb_apply t
+    where t.user_id in (select user_id from t_consb_user t where t.org_id in (select org_id from t_consb_user t where t.user_id = ?))
+    and t.sub_tag = '1' and t.cs_id = '0'
+    )t
+) a,
+(select a.user_id,a.user_name,b.org_id,b.org_name from t_consb_user a
+left join t_consb_org b
+on a.org_id = b.org_id) b
+where a.user_id = b.user_id order by time asc
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2042" name="申请审批">
+		<nt:sql updFlag="2">
+			update t_consb_apply t set t.cs_id = ?,t.cs_desc=?,t.cs_time=?,t.cs_state=? where t.apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2061" name="主办待处理订单查询">
+		<nt:sql updFlag="5" queryType="1" odName="time" odWay="desc">
+  			select a.*,b.user_name cs_name from(
+select a.*,b.org_id,b.org_name,b.org_bgt from(
+select t.apply_id,t.apply_time time,t.apply_desc,t.user_id,t.cs_id,t.cs_state,t.cs_desc,t.cs_time,
+         t.zb_id,t.zb_state,t.zb_desc,t.zb_time,t.kg_id,t.kg_state,t.kg_desc,t.kg_time,t.temp_desc from t_consb_apply t
+  			 where t.cs_state =? and t.zb_state=?) a,
+(select a.user_id,a.user_name,a.user_mail,b.org_id,b.org_name,b.org_bgt from t_consb_user a
+left join t_consb_org b
+on a.org_id = b.org_id) b
+where a.user_id = b.user_id   order by time desc
+)a left join t_consb_user b 
+on a.cs_id = b.user_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="2062" name="主办处理订单">
+		<nt:sql updFlag="2">
+		  update t_consb_apply t set t.zb_id = ?,t.zb_time=?,t.zb_state=?,t.dl_time=? where t.apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20711" name="订单（零星申请）初始化">
+		<nt:sql updFlag="4" queryType="1">
+		   select * from T_CONSB_APPTEMP
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20712" name="订单(零星耗材)新增">
+		<nt:sql updFlag="1">
+		  insert into t_consb_apptemp(apply_id,user_id,bgs_id,bgs_time,bgs_state,bgs_desc,sub_tag) values(?,?,?,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20713" name="订单(零星耗材)修改">
+		<nt:sql updFlag="2">
+		 update t_consb_apptemp t set t.apply_desc=? where t.apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20714" name="订单(零星耗材)提交">
+		<nt:sql updFlag="2">
+		 update t_consb_apptemp t set t.apply_desc=?,t.sub_tag=?,t.apply_time=? where t.apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20721" name="订单(零星耗材)进度查询">
+		<nt:sql updFlag="4" queryType="2" odName="apply_time" odWay="desc">
+		  select a.*,b.user_name bgs_name from(
+        select a.*,b.user_name,b.org_id,b.org_name from t_consb_apptemp a,
+		(select a.*,b.org_name from t_consb_user a 
+		left join t_consb_org b
+		on a.org_id = b.org_id)b
+		where a.user_id = b.user_id order by a.apply_time desc
+    )a left join t_consb_user b
+    on a.bgs_id = b.user_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20741" name="待审批申请（零星）查询（办公室）">
+		<nt:sql updFlag="4" queryType="2" >
+		select a.*,b.user_name,b.org_id,b.org_name from t_consb_apptemp a,
+		(select a.*,b.org_name from t_consb_user a 
+		left join t_consb_org b
+		on a.org_id = b.org_id)b
+		where a.user_id = b.user_id order by a.apply_time desc
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="20742" name="零星申请审批（办公室）">
+		<nt:sql updFlag="2">
+		update t_consb_apptemp t set t.bgs_id = ?,t.bgs_desc=?,t.bgs_time=?,t.bgs_state=? where t.apply_id=?
+		</nt:sql>
+	</nt:consb>
+	<!-- ************************申请管理开始**************************** -->
+	
+	<!-- ************************用户管理开始**************************** -->
+	<nt:consb id="3011" name="新增用户">
+		<nt:sql updFlag="1">
+			insert into t_consb_user values(?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="3012" name="修改用户">
+		<nt:sql  updFlag="2">
+			update t_consb_user t set t.user_name=? ,t.org_id=?,t.user_mail=? where t.user_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="3013" name="删除用户">
+		<nt:sql  updFlag="3">
+			delete t_consb_user t  where t.user_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="3014" name="用户查询">
+		<nt:sql odName="user_id" odWay="asc"  updFlag="4">
+			select t1.*,t2.org_name from t_consb_user t1 ,t_consb_org t2 where t1.org_id = t2.org_id order  by t1.user_id
+		</nt:sql>
+	</nt:consb>
+	<!-- ************************用户管理结束**************************** -->
+	
+	<!-- ************************查询与统计结束**************************** -->
+	<nt:consb id="4011" name="物品分类汇总">
+		<nt:sql odName="consb_id" odWay="asc" updFlag="4" queryType="2">
+			select consb_id,consb_code,consb_name,spl_id,spl_name,type_idp,type_namep,type_id,type_name,consb_mn,consb_unit
+,consb_bstnum,consb_minnum,consb_rm,consb_bn,consb_sd,consb_unum,consb_price,consb_num num
+from(
+select c.*,a.spl_id,b.spl_name from t_consb_splkc a,t_consb_spl b,
+		    (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,(select a.*,b.type_name type_namep  from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id) b where a.type_id = b.type_id) c
+		    where a.spl_id = b.spl_id and a.consb_id = c.consb_id order by a.consb_id
+)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="4021" name="部门领用汇总">
+		<nt:sql odName="time" odWay="asc" updFlag="4" queryType="2">
+			select c.org_id,c.org_name,a.ck_id,a.ck_time time,b.consb_id,b.consb_name,b.consb_sd,b.consb_mn,b.consb_unit,b.consb_price,a.ck_num num from t_consb_ck a,
+			  (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+			  (select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+			  where a.type_id = b.type_id)b,
+			  (select a.*,b.org_id,b.org_name from t_consb_apply a,
+			  (select a.user_id,b.org_id,b.org_name from t_consb_user a left join t_consb_org b on a.org_id = b.org_id)b
+			  where a.user_id = b.user_id)c
+			  where a.consb_id = b.consb_id and a.apply_id = c.apply_id order by time
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="4031" name="人员领用汇总">
+		<nt:sql odName="time" odWay="asc" updFlag="4" queryType="2">
+			select c.user_id,c.org_name,a.ck_id,a.ck_time time,b.consb_id,b.consb_name,b.consb_sd,b.consb_mn,b.consb_unit,b.consb_price,a.ck_num num from t_consb_ck a,
+			  (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+			  (select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+			  where a.type_id = b.type_id)b,
+			  (select a.*,b.org_id,b.org_name from t_consb_apply a,
+			  (select a.user_id,b.org_id,b.org_name from t_consb_user a left join t_consb_org b on a.org_id = b.org_id)b
+			  where a.user_id = b.user_id)c
+			  where a.consb_id = b.consb_id and a.apply_id = c.apply_id order by time
+		</nt:sql>
+	</nt:consb>
+	
+	<nt:consb id="4041" name="商品供货信息汇总">
+		<nt:sql odName="time" odWay="asc" updFlag="4" queryType="2">
+			select a.rk_id,a.rk_num num,a.rk_time time,a.rk_ps,b.* from t_consb_rk a,(
+			select a.spl_id,a.spl_name,c.* from t_consb_spl a,t_consb_splkc b,(select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+			(select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+			where a.type_id = b.type_id)c
+			where a.spl_id = b.spl_id and b.consb_id = c.consb_id)b
+			where a.consb_id = b.consb_id order by time
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="40511" name="库存变动汇总(入库)">
+		<nt:sql odName="time" odWay="desc" updFlag="4" queryType="2">
+			select change_type,consb_id,consb_code,consb_name,consb_mn,consb_unit,consb_bstnum,consb_minnum,consb_unum,consb_num,consb_rm,consb_bn,consb_sd,type_namep,type_name,time,consb_price,num
+from(
+select 1 change_type,a.rk_id,a.rk_num num,a.rk_time time,a.rk_ps,b.* from t_consb_rk a,
+      (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+      (select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+      where a.type_id = b.type_id) b
+      where a.consb_id = b.consb_id order by time desc
+)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="40512" name="库存变动汇总(领用)">
+		<nt:sql odName="time" odWay="desc" updFlag="4" queryType="2">
+			select change_type,consb_id,consb_code,consb_name,consb_mn,consb_unit,consb_bstnum,consb_minnum,consb_unum,consb_num,consb_rm,consb_bn,consb_sd,type_namep,type_name,time,consb_price,num
+from(
+select 2 change_type,a.ck_id,a.ck_num num,a.ck_time time,a.ck_ps,b.* from t_consb_ck a,
+      (select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+      (select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+			where a.type_id = b.type_id) b
+			where a.consb_id = b.consb_id order by time desc
+)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb id="4061" name="库存预警汇总">
+		<nt:sql odName="consb_id" odWay="asc" updFlag="4" queryType="2">
+select t.consb_id,t.type_id,t.type_name,t.type_idp,t.type_namep,t.consb_mn,t.consb_name,t.consb_bn,t.consb_sd,t.spl_name,t.consb_unit,t.consb_num,t.consb_bstnum,t.consb_minnum,t.consb_unum from (
+select c.*,a.spl_id,a.spl_name from t_consb_spl a,t_consb_splkc b,
+(select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_kc a,
+(select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+where a.type_id = b.type_id) c
+where a.spl_id = b.spl_id and b.consb_id = c.consb_id
+) t where to_number(t.consb_unum) &lt;= to_number(t.consb_minnum)
+		</nt:sql>
+	</nt:consb>
+	<!-- ************************查询与统计开始**************************** -->
+	
+	<!-- ************************入库管理开始**************************** -->
+	<nt:consb name="入库登记（新增）" id="10411">
+		<nt:sql updFlag="1">
+			insert into t_consb_rk(rk_id,consb_id,rk_num,rk_time,rk_ps) values(SEQ_CONSB_RKID.NEXTVAL,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="入库历史查询" id="10421">
+		<nt:sql queryType="2" updFlag="4">
+			select c.*, b.spl_id, b.spl_name from t_consb_splkc a, t_consb_spl b, (select b.*, a.rk_num, a.rk_time time, a.rk_ps from t_consb_rk a,(select a.*, b.type_name, b.type_idp, b.type_namep from t_consb_kc a,
+			                    (select a.*, b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id) b where a.type_id = b.type_id) b
+			          where a.consb_id = b.consb_id  order by a.rk_time) c
+			  where a.consb_id = c.consb_id and a.spl_id = b.spl_id
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="供应商新增" id="10431">
+		<nt:sql updFlag="1">
+			insert into t_consb_spl(SPL_ID,SPL_NAME,SPL_ADDR,SPL_FR,SPL_FRMB,SPL_FRPH,SPL_FRFAX,SPL_FRMAIL,SPL_LX,SPL_LXMB,SPL_LXPH,SPL_LXMAX,SPL_LXMAIL,SPL_SCOPE,SPL_ZBTIME) 
+			values(SEQ_CONSB_SPLID.nextval,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="供应商修改" id="10432">
+		<nt:sql updFlag="2">
+			update t_consb_spl set spl_name=?,spl_addr=?,spl_fr=?,spl_frmb=?, spl_frph=?,spl_frfax=?,spl_frmail=?,spl_lx=?,spl_lxmb=?,spl_lxph=?,spl_lxmax=?,spl_lxmail=?, spl_scope=?,spl_zbtime=? where spl_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="供应商删除" id="10433">
+		<nt:sql updFlag="3">
+			delete from t_consb_spl where spl_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="供应商对应产品查询" id="104331">
+		<nt:sql queryType="1" updFlag="4" odName="spl_id" odWay="asc">
+			select * from t_consb_splkc
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="供应商信息查询" id="10434">
+		<nt:sql queryType="2" updFlag="4" odName="spl_id" odWay="asc">
+			select * from t_consb_spl order by to_number(spl_id)
+		</nt:sql>
+	</nt:consb>
+	
+	
+	<nt:consb name="物品询价新增" id="10441">
+		<nt:sql updFlag="1">
+			insert into t_consb_gdcp(consb_id,type_id,consb_mn,consb_name,consb_unit,consb_bn,consb_sd,consb_price) values(SEQ_CONSB_SPLNGDCP.NEXTVAL,?,?,?,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="物品询价新增" id="104411">
+		<nt:sql updFlag="1">
+			insert into t_consb_splngdcp(consb_id,spln_id) values(SEQ_CONSB_SPLNGDCP.CURRVAL,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="物品询价修改" id="10442">
+		<nt:sql updFlag="2">
+			update t_consb_gdcp t set t.type_id=?,t.consb_mn=?,t.consb_name=?,t.consb_unit=?,t.consb_bn=?,t.consb_sd=?,t.consb_price=? where t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="物品询价修改" id="104421">
+		<nt:sql updFlag="2">
+			update t_consb_splngdcp t set t.spln_id=? where t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="物品询价删除" id="10443">
+		<nt:sql updFlag="3">
+		delete t_consb_gdcp t where t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="物品询价删除" id="104431">
+		<nt:sql updFlag="3">
+		delete t_consb_splngdcp t where t.consb_id=?
+		</nt:sql>
+	</nt:consb>
+	
+	<nt:consb name="物品询价管理查询" id="10444">
+		<nt:sql queryType="2" updFlag="4" odName="spln_id" odWay="asc">
+			 select b.*, a.spln_id,a.spln_name,a.spln_addr,a.spln_scope,a.spln_time time from t_consb_spln a,
+( select a.*,b.type_name,b.type_idp,b.type_namep from t_consb_gdcp a,
+(select a.type_id,a.type_name,b.type_id type_idp,b.type_name type_namep from t_consb_type a left join t_consb_type b on a.type_idp = b.type_id)b
+where a.type_id = b.type_id) b,
+t_consb_splngdcp c
+			where a.spln_id = c.spln_id and b.consb_id = c.consb_id order by spln_id
+		</nt:sql>
+	</nt:consb>
+	
+	<nt:consb name="询价商家新增" id="10451">
+		<nt:sql updFlag="1">
+			insert into t_consb_spln(spln_id,spln_name,spln_addr,spln_scope,spln_time) values(SEQ_CONSB_SPLNID.nextval,?,?,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="询价商家修改" id="10452">
+		<nt:sql updFlag="2">
+			update t_consb_spln set spln_name=?,spln_addr=?,spln_scope=? where spln_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="询价商家删除" id="10453">
+		<nt:sql updFlag="3">
+			delete from t_consb_spln where spln_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="询价商家下属产品查询" id="104531">
+		<nt:sql queryType="1" updFlag="4" odName="spln_id" odWay="asc">
+			select * from t_consb_splngdcp a 
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="询价商家信息查询" id="10454">
+		<nt:sql queryType="2" updFlag="4" odName="spln_id" odWay="asc">
+			select * from t_consb_spln order by to_number(spln_id)
+		</nt:sql>
+	</nt:consb>
+	<!-- ************************入库管理结束**************************** -->
+	
+	<!-- ************************物品信息维护开始**************************** -->
+	<nt:consb name="大类新增" id="10611">
+		<nt:sql updFlag="1">
+			insert into t_consb_type(type_id,type_name,type_idp) values(seq_consb_typeid.nextval,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="大类修改" id="10612">
+		<nt:sql updFlag="2">
+			update t_consb_type t set t.type_name=? where t.type_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="大类删除" id="10613">
+		<nt:sql updFlag="3">
+			delete t_consb_type where type_id = ?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="大类下属小类查询" id="106131">
+		<nt:sql queryType="2" updFlag="5" odName="type_id" odWay="asc">
+			select * from t_consb_type where type_idp=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="大类查询" id="10614">
+		<nt:sql queryType="2" updFlag="4" odName="type_id" odWay="asc">
+			select a.type_id,a.type_name,a.type_idp,b.type_name type_namep from t_consb_type a 
+			left join t_consb_type b
+			on a.type_idp = b.type_id where a.type_idp = '0'
+		</nt:sql>
+	</nt:consb>
+	
+	<nt:consb name="小类新增" id="10621">
+		<nt:sql updFlag="1">
+			insert into t_consb_type(type_id,type_name,type_idp) values(seq_consb_typeid.nextval,?,?)
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="小类修改" id="10622">
+		<nt:sql updFlag="2">
+			update t_consb_type t set t.type_name=?,t.type_idp=? where t.type_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="小类删除" id="10623">
+		<nt:sql updFlag="3">
+			delete t_consb_type where type_id = ?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="小类下属物品查询" id="106231">
+		<nt:sql queryType="2" updFlag="5" odName="consb_id" odWay="asc">
+			select * from t_consb_kc t where t.type_id=?
+		</nt:sql>
+	</nt:consb>
+	<nt:consb name="小类查询" id="10624">
+		<nt:sql queryType="2" updFlag="4" odName="type_id" odWay="asc">
+			select a.type_id,a.type_name,a.type_idp,b.type_name type_namep from t_consb_type a 
+			left join t_consb_type b
+			on a.type_idp = b.type_id where a.type_idp != '0'
+		</nt:sql>
+	</nt:consb>
+	<!-- ************************物品信息维护结束**************************** -->
+	
+</beans>

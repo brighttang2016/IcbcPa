@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+  <servlet>
+    <servlet-name>dwr-invoker</servlet-name>
+  <!--  <servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class> -->
+  <servlet-class>org.directwebremoting.spring.DwrSpringServlet   </servlet-class>
+   <!--  <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>crossDomainSessionSecurity</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>allowScriptTagRemoting</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>classes</param-name>
+      <param-value>java.lang.Object</param-value>
+    </init-param>
+    <init-param>
+      <param-name>activeReverseAjaxEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>initApplicationScopeCreatorsAtStartup</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>maxWaitAfterWrite</param-name>
+      <param-value>3000</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>logLevel</param-name>
+      <param-value>WARN</param-value>
+    </init-param> -->
+  </servlet>
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <welcome-file-list>
+    <welcome-file>pages/login/login.jsp</welcome-file>
+  </welcome-file-list>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+  	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml,/WEB-INF/classes/applicationDwrContext.xml,classpath:applicationSchedulerCfg.xml</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>nt</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+   <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:applicationServlet.xml</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+    <description>下载servlet</description>
+    <display-name>下载servlet</display-name>
+    <servlet-name>DownLoad</servlet-name>
+    <servlet-class>com.icbc.nt.test.DownLoad</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>nt</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>nt</servlet-name>
+    <!-- <servlet-name>dwr-invoker</servlet-name> -->
+    <url-pattern>/dwr/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DownLoad</servlet-name>
+    <url-pattern>/DownLoad</url-pattern>
+  </servlet-mapping>
+</web-app>

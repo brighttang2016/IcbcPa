@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:nt="http://www.nantian.com.cn/rmc/schema/navi" 
+	xsi:schemaLocation="http://www.nantian.com.cn/rmc/schema/navi navi_cfg.xsd ">
+	
+	<!-- ************************左导航配置文件*************************** -->
+	<nt:root menu_text="根节点" menu_id="0" menu_type="2">
+		<nt:menu menu_text="系统管理" menu_id="100" menu_type="0">
+			<nt:menu menu_text="用户管理" menu_id="1001" menu_type="1" url_text="pages/yh/yh.jsp">
+				<nt:auth menu_text="新增" menu_id="10011" menu_type="3"/>
+				<nt:auth menu_text="修改" menu_id="10012" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10013" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10014" menu_type="3"/>
+				<nt:auth menu_text="批量导入" menu_id="10015" menu_type="3"/>
+				<nt:auth menu_text="职务层级查询" menu_id="30034" menu_type="3"/>
+			</nt:menu>
+			<nt:menu menu_text="角色管理" menu_id="1002" menu_type="1" url_text="pages/js/js.jsp">
+				<nt:auth menu_text="新增" menu_id="10021" menu_type="3"/>
+				<nt:auth menu_text="修改" menu_id="10022" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10023" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10024" menu_type="3"/>
+			</nt:menu>
+			<nt:menu menu_text="机构管理" menu_id="1003" menu_type="1" url_text="pages/jg/jg.jsp">
+				<nt:auth menu_text="新增" menu_id="10031" menu_type="3"/>
+				<nt:auth menu_text="修改" menu_id="10032" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10033" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10034" menu_type="3"/>
+			</nt:menu>
+			<nt:menu menu_text="系统初始化" menu_id="1006" menu_type="1" url_text="pages/sysinit/sysinit.jsp">
+				<nt:auth menu_text="机构部门初始化" menu_id="10000001" menu_type="3"/>
+				<nt:auth menu_text="用户初始化" menu_id="10000002" menu_type="3"/>
+			</nt:menu>
+		</nt:menu>
+		<nt:menu menu_text="业绩考核" menu_id="300" menu_type="0">
+			<nt:menu menu_text="个人管理" menu_id="31000" menu_type="0">
+			<!-- 
+				<nt:menu menu_text="标准产品考核" menu_id="31100" menu_type="0">
+					<nt:menu menu_text="数据导入" menu_id="3011" menu_type="1" url_text="pages/bzcpsj/bzcpsj.jsp">
+						<nt:auth menu_text="查询标准产品考核基础数据" menu_id="30111" menu_type="3"/>
+							<nt:auth menu_text="批量导入标准产品考核基础数据" menu_id="30112" menu_type="3"/>
+						</nt:menu>
+						<nt:menu menu_text="业绩展示" menu_id="3001" menu_type="1" url_text="pages/bzcpsjls/bzcpsjls.jsp">
+							<nt:auth menu_text="查询" menu_id="30014" menu_type="3"/>
+						</nt:menu> 
+				</nt:menu>
+				<nt:menu menu_text="特色业务考核" menu_id="31200" menu_type="0">
+					<nt:menu menu_text="数据导入" menu_id="3012" menu_type="1" url_text="pages/zhtssj/zhtssj.jsp">
+						<nt:auth menu_text="查询特色业务考核基础数据" menu_id="30121" menu_type="3"/>
+						<nt:auth menu_text="批量导入特色业务考核基础数据" menu_id="30122" menu_type="3"/>
+					</nt:menu>
+					<nt:menu menu_text="指标设置" menu_id="3015" menu_type="1" url_text="pages/tsywfw/tsywfw.jsp">
+						<nt:auth menu_text="新增" menu_id="30151" menu_type="3"/>
+						<nt:auth menu_text="修改" menu_id="30152" menu_type="3"/>
+						<nt:auth menu_text="删除" menu_id="30153" menu_type="3"/>
+						<nt:auth menu_text="查询" menu_id="30154" menu_type="3"/>
+					</nt:menu>
+					<nt:menu menu_text="业绩展示" menu_id="3002" menu_type="1" url_text="pages/zhtssjls/zhtssjls.jsp">
+						<nt:auth menu_text="查询" menu_id="30021" menu_type="3"/>
+					</nt:menu> 
+				</nt:menu>
+				<nt:menu menu_text="网点挂钩考核" menu_id="31300" menu_type="0">
+					<nt:menu menu_text="数据导入" menu_id="3013" menu_type="1" url_text="pages/dxsj/dxsj.jsp">
+						<nt:auth menu_text="查询定性考核基础数据" menu_id="30131" menu_type="3"/>
+						<nt:auth menu_text="批量导入定性考核基础数据" menu_id="30132" menu_type="3"/>
+					</nt:menu>
+					<nt:menu menu_text="业绩展示" menu_id="3014" menu_type="1" url_text="pages/dxsjls/dxsjls.jsp">
+						<nt:auth menu_text="查询" menu_id="30141" menu_type="3"/>
+					</nt:menu>
+				</nt:menu>
+				 
+				<nt:menu menu_text="业务量考核" menu_id="31400" menu_type="0">
+					<nt:menu menu_text="数据导入" menu_id="3010" menu_type="1" url_text="pages/ywlsj/ywlsj.jsp">
+						<nt:auth menu_text="查询业务量考核基础数据" menu_id="30101" menu_type="3"/>
+						<nt:auth menu_text="批量导入业务量考核基础数据" menu_id="30102" menu_type="3"/>
+					</nt:menu>
+					<nt:menu menu_text="业绩展示" menu_id="3004" menu_type="1" url_text="pages/ywlsjls/ywlsjls.jsp">
+						<nt:auth menu_text="查询" menu_id="30041" menu_type="3"/>
+					</nt:menu>
+				</nt:menu>
+				-->
+				<nt:menu menu_text="个人业绩考核" menu_id="31500" menu_type="0">
+					<nt:menu menu_text="个人业绩导入" menu_id="315001" menu_type="1" url_text="pages/gryjdr/gryjdr.jsp">
+						<nt:auth menu_text="个人业绩导入" menu_id="20000001" menu_type="3"/>
+						<nt:auth menu_text="个人业绩导入结果查询" menu_id="20000002" menu_type="3"/>
+					</nt:menu>
+				</nt:menu>
+				
+			</nt:menu>
+			<!-- 
+			<nt:menu menu_text="机构管理" menu_id="3300" menu_type="0">
+				<nt:menu menu_text="数据导入" menu_id="33002" menu_type="0">
+					<nt:menu menu_text="综合经营排位" menu_id="330021" menu_type="0">
+						<nt:menu menu_text="数据导入" menu_id="3300211" menu_type="1" url_text="">
+							<nt:auth menu_text="数据导入(完成值)" menu_id="10000060" menu_type="3"/>
+							<nt:auth menu_text="数据导入(分数)" menu_id="10000061" menu_type="3"/>
+							<nt:auth menu_text="导入结果查询" menu_id="10000062" menu_type="3"/>
+						</nt:menu>
+					</nt:menu>
+					<nt:menu menu_text="重点产品挂钩" menu_id="330002" menu_type="0">
+						<nt:menu menu_text="数据导入" menu_id="3300021" menu_type="1" url_text="">
+							<nt:auth menu_text="数据导入(完成值)" menu_id="10000057" menu_type="3"/>
+							<nt:auth menu_text="数据导入(分数)" menu_id="10000058" menu_type="3"/>
+							<nt:auth menu_text="导入结果查询" menu_id="10000059" menu_type="3"/>
+						</nt:menu>
+					</nt:menu>
+					<nt:menu menu_text="mova机构得分" menu_id="330003" menu_type="0">
+						<nt:menu menu_text="数据导入" menu_id="3300031" menu_type="1" url_text="pages/movajgdfdr/movajgdfdr.jsp">
+							<nt:auth menu_text="数据导入" menu_id="10000055" menu_type="3"/>
+							<nt:auth menu_text="导入结果查询" menu_id="10000056" menu_type="3"/>
+						</nt:menu>
+					</nt:menu>
+				</nt:menu>
+			</nt:menu>
+			 -->
+			
+		</nt:menu>
+		
+		<nt:menu menu_text="绩效分配" menu_id="32000" menu_type="0">
+			<nt:menu menu_text="人员分配" menu_id="320002" menu_type="0">
+			<!-- 
+				<nt:menu menu_text="数据导入" menu_id="3200011" menu_type="1" url_text="pages/ryfpsjdr/ryfpsjdr.jsp">
+					<nt:auth menu_text="人员总包分配比例导入" menu_id="10000068" menu_type="3"/>
+					<nt:auth menu_text="导入结果查询" menu_id="10000069" menu_type="3"/>
+				</nt:menu>
+				<nt:menu menu_text="自动计算" menu_id="3200012" menu_type="1" url_text="pages/ryfpzdjs/ryfpzdjs.jsp">
+					<nt:auth menu_text="绩效计算" menu_id="10000070" menu_type="3"/>
+					<nt:auth menu_text="当期绩效查询" menu_id="10000071" menu_type="3"/>
+					<nt:auth menu_text="当期绩效导出" menu_id="10000072" menu_type="3"/>
+				</nt:menu>
+				<nt:menu menu_text="结果查询" menu_id="3200013" menu_type="1" url_text="pages/ryfpjgcx/ryfpjgcx.jsp">
+					<nt:auth menu_text="历史绩效查询" menu_id="10000080" menu_type="3"/>
+					<nt:auth menu_text="历史绩效导出" menu_id="10000081" menu_type="3"/>
+				</nt:menu>
+				 -->
+				<nt:menu menu_text="自动计算(绩效)" menu_id="3200014" menu_type="1" url_text="pages/ryfpzdjs2/ryfpzdjs2.jsp">
+					<nt:auth menu_text="绩效计算" menu_id="20000007" menu_type="3"/>
+					<nt:auth menu_text="绩效查询" menu_id="20000008" menu_type="3"/>
+					<!-- <nt:auth menu_text="绩效导出" menu_id="20000009" menu_type="3"/> -->
+				</nt:menu>
+			</nt:menu>
+			<nt:menu menu_text="机构分配" menu_id="320001" menu_type="0">
+				<!-- 
+				<nt:menu menu_text="数据导入" menu_id="3200021" menu_type="1" url_text="pages/jgfpsjdr/jgfpsjdr.jsp">
+					<nt:auth menu_text="数据导入(总包系数)" menu_id="10000052" menu_type="3"/>
+					<nt:auth menu_text="导入结果查询" menu_id="10000053" menu_type="3"/>
+				</nt:menu>
+				<nt:menu menu_text="结果查询" menu_id="3200022" menu_type="1" url_text="pages/jgfpjgcx/jgfpjgcx.jsp">
+					<nt:auth menu_text="查询" menu_id="10000054" menu_type="3"/>
+				</nt:menu>
+				 -->
+				<nt:menu menu_text="数据导入(支行考核)" menu_id="3200023" menu_type="1" url_text="pages/zbdrzh/zbdrzh.jsp">
+					<nt:auth menu_text="总包导入(分支行考核)" menu_id="20000003" menu_type="3"/>
+					<nt:auth menu_text="总包导入结果查询(分支行考核)" menu_id="20000004" menu_type="3"/>
+				</nt:menu>
+				<nt:menu menu_text="数据导入(网点考核)" menu_id="3200024" menu_type="1" url_text="pages/zbdrwd/zbdrwd.jsp">
+					<nt:auth menu_text="总包导入(网点考核)" menu_id="20000005" menu_type="3"/>
+					<nt:auth menu_text="总包导入结果查询(网点考核)" menu_id="20000006" menu_type="3"/>
+				</nt:menu>
+				<nt:menu menu_text="网点柜员手动分配" menu_id="3200025" menu_type="1" url_text="pages/wdsdfp/wdsdfp.jsp">
+					<nt:auth menu_text="手动分配绩效导入" menu_id="20000013" menu_type="3"/>
+					<nt:auth menu_text="手动分配绩效导入结果查询" menu_id="20000014" menu_type="3"/>
+				</nt:menu>
+			</nt:menu>
+			<nt:menu menu_text="收入查询" menu_id="320003" menu_type="0">
+				<!-- <nt:menu menu_text="结果导出" menu_id="3200031" menu_type="1" url_text="pages/jxsrshow/jxsrshow.jsp">
+					<nt:auth menu_text="导出" menu_id="10000050" menu_type="3"/>
+					<nt:auth menu_text="结果查询" menu_id="10000051" menu_type="3"/>
+				</nt:menu> -->
+				<nt:menu menu_text="绩效查询" menu_id="3200015" menu_type="1" url_text="pages/jxcx/jxcx.jsp">
+					<nt:auth menu_text="历史绩效查询" menu_id="20000011" menu_type="3"/>
+					<nt:auth menu_text="历史绩效导出" menu_id="20000012" menu_type="3"/>
+				</nt:menu>
+			</nt:menu>
+		</nt:menu>
+		<nt:menu menu_text="考核设置" menu_id="400" menu_type="0">
+			<!-- <nt:menu menu_text="不参与考核人员设置" menu_id="3008" menu_type="1" url_text="pages/bcykh/bcykh.jsp">
+				<nt:auth menu_text="新增不参与考核人员" menu_id="30081" menu_type="3"/>
+				<nt:auth menu_text="删除不参与考核人员" menu_id="30082" menu_type="3"/>
+				<nt:auth menu_text="查询不参与考核人员" menu_id="30083" menu_type="3"/>
+				<nt:auth menu_text="批量导入不参与考核人员" menu_id="30084" menu_type="3"/>
+			</nt:menu>
+			-->
+			<!-- <nt:menu menu_text="职务层级设置" menu_id="1004" menu_type="1" url_text="pages/zwcj/zwcj.jsp">
+				<nt:auth menu_text="新增" menu_id="10041" menu_type="3"/>
+				<nt:auth menu_text="修改" menu_id="10042" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10043" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10044" menu_type="3"/>
+			</nt:menu>  -->
+			<!-- <nt:menu menu_text="权重区间设置" menu_id="1005" menu_type="1" url_text="pages/qzqj/qzqj.jsp">
+				<nt:auth menu_text="数据导入" menu_id="10000073" menu_type="3"/>
+				<nt:auth menu_text="修改" menu_id="10000074" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10000075" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10000076" menu_type="3"/>
+			</nt:menu> -->
+			
+			<nt:menu menu_text="考核任务管理" menu_id="5005" menu_type="1" url_text="pages/khrwgl/khrwgl.jsp">
+				<nt:auth menu_text="新增" menu_id="10000077" menu_type="3"/>
+				<nt:auth menu_text="删除" menu_id="10000078" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="10000079" menu_type="3"/>
+			</nt:menu>
+			<nt:menu menu_text="总包占比设置" menu_id="4001" menu_type="1" url_text="pages/zbzb/zbzb.jsp">
+				<nt:auth menu_text="修改" menu_id="20000015" menu_type="3"/>
+				<nt:auth menu_text="查询" menu_id="20000016" menu_type="3"/>
+			</nt:menu>
+		</nt:menu>
+	</nt:root>
+</beans>

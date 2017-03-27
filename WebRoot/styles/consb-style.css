@@ -1,0 +1,18 @@
+.formLabel2{width:120px;color:white;padding:4px 10px;border:0px solid red}
+.formInput{width:180px;height:30px}
+
+.font-style2{
+    	font-size:15px;
+    	font-weight:800;
+    	color:red
+    }
+.x-action-col-cell:hover{ 
+   	 	cursor:pointer;     
+	}  
+.borderClass{border:1px solid red}
+
+.jxBtnClass{
+    	border:1px solid red,
+    	 font-weight:800,
+    	 font-family:'Î¢ÈíÑÅºÚ'
+    }  

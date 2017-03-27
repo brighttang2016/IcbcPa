@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+				http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	<!-- 文件说明：系统上下文 -->
+	<import resource="applicationBusContext.xml"/>
+	<!-- 权限拦截器 -->
+ 	<mvc:interceptors> 
+		<mvc:interceptor> 
+			<mvc:mapping path="/*.html"/> 
+			<mvc:exclude-mapping path="/loginCheck.html"/> 
+			<mvc:exclude-mapping path="/sessionInvalid.html"/>
+			<mvc:exclude-mapping path="/authInvalid.html"/>
+			<mvc:exclude-mapping path="/toMain.html"/>
+			<bean class="com.icbc.nt.interceptor.AuthInteceptor" parent="busParent">
+				<property name="userBus" ref="userBusTarget"></property>
+			</bean> 
+		</mvc:interceptor> 
+	</mvc:interceptors>
+
+	<context:property-placeholder location="classpath:property.properties"/>
+	<context:component-scan base-package="com.icbc.nt.dom"/>
+	<context:component-scan base-package="com.icbc.nt.bus"/>
+	<context:component-scan base-package="com.icbc.nt.excel"/>
+	<context:component-scan base-package="com.icbc.nt.util"/>
+	<context:component-scan base-package="com.icbc.nt.mail"/>
+	<context:component-scan base-package="com.icbc.message.push"/>
+	<context:component-scan base-package="com.icbc.nt.scheduler"/>
+	<context:component-scan base-package="com.icbc.nt.bus.command"/>
+	<context:component-scan base-package="com.icbc.nt.bus.dispatcher"/>
+	<context:component-scan base-package="com.icbc.nt.bus.receiver"/>
+	<context:component-scan base-package="com.icbc.nt.web"/>
+	
+	<!-- 动态代理设置 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- 返回json -->
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"
+		p:messageConverters-ref="mappingJacksonHttpMessageConverter"/> 
+	<!-- 事物管理 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="dataSource"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/> 
+	<!-- 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+		destroy-method="close"
+		p:driverClassName="${db_connect.driver}"
+		p:url="${db_connect.url}"
+		p:username="${db_connect.username}"
+		p:password="${db_connect.password}"/>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
+	<bean id="daoParent" class="com.icbc.nt.dom.DaoParent"></bean>
+	<!-- 系统变量池 -->
+	<bean id="tmd" class="com.icbc.nt.util.TransactionMapData" scope="request">
+		<aop:scoped-proxy/>
+	</bean>
+	<!-- <bean id="pushThread" class="com.icbc.message.push.PushThread" scope="session">
+		<aop:scoped-proxy/>
+		<property name="tmdCurr" ref="tmd"></property>
+	</bean> -->
+	<bean id="icbcUtil" class="com.icbc.nt.util.IcbcUtil">
+		<property name="tmd" ref="tmd"></property>
+	</bean>
+	<bean id="busParent" class="com.icbc.nt.bus.BusParent">
+		<property name="iu" ref="icbcUtil"></property>
+		<property name="tmd" ref="tmd"></property>
+	</bean>
+	<bean id="afterUpdAdvice" class="com.icbc.nt.advice.UploadAfterAdvice"></bean>
+	<!-- <bean id="userBus" class="com.icbc.nt.bus.UserBus" parent="busParent">
+		<property name="dayInterval" value="${consboff_applyfetch_timeout}"></property>
+	</bean> -->
+	<bean id="roleBus" class="com.icbc.nt.bus.RoleBus" parent="busParent"></bean>
+	<bean id="orgBus" class="com.icbc.nt.bus.OrgBus" parent="busParent"></bean>
+	<bean id="batBus" class="com.icbc.nt.bus.BatBus" parent="busParent"></bean>
+	<bean id="jxBus" class="com.icbc.nt.bus.JxBus" parent="busParent"></bean>
+	<bean id="naviBus" class="com.icbc.nt.bus.NaviBus" parent="busParent"></bean>
+	<!-- <bean id="userControler" class="com.icbc.nt.web.UserControler"
+	p:sessionTimeout = "${sessionTimeout}"/> -->
+	<!-- <bean id="naviInit" class="com.icbc.nt.util.NaviInit" /> -->
+	<!-- <bean id="wageBasePointInit" class="com.icbc.nt.util.WageBasePointInit"/> -->
+	<!-- <bean id="orgInit" class="com.icbc.nt.util.OrgInit"/> -->
+	<!-- <bean id="userInit" class="com.icbc.nt.util.UserInit"/> -->
+	
+	<!-- ************************邮件本开始************************************* -->
+	<!-- <bean id='mailToCsy' class="com.icbc.nt.mail.MailToCsy" parent="busParent"></bean>
+	<bean id='mailToKg' class="com.icbc.nt.mail.MailToKg" parent="busParent"></bean>
+	<bean id='mailToLd' class="com.icbc.nt.mail.MailToLd" parent="busParent"></bean>
+	<bean id='mailToSqr' class="com.icbc.nt.mail.MailToSqr" parent="busParent"></bean>
+	<bean id='mailToZb' class="com.icbc.nt.mail.MailToZb" parent="busParent"></bean>
+	<bean id='mailIvtScan' class="com.icbc.nt.mail.MailIvtScan" parent="busParent"></bean> -->
+	<!-- ************************邮件本结束************************************* -->
+	
+	<bean id="paramBus" class="com.icbc.nt.bus.ParamBus" parent="busParent"/>
+	<bean id="authInteceptorBus" class="com.icbc.nt.bus.AuthInteceptorBus" parent="busParent"/>
+	<!-- 定义增强逻辑 -->
+	<bean id="greetingAdvice" class="com.icbc.nt.advice.GreetingBeforeAdvice"></bean>
+	<bean id="transAdvice" class="com.icbc.nt.advice.TransBeforeAdvice"/>
+	<!-- 定义切面 -->
+	<bean id="transAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" 
+		p:advice-ref="transAdvice">
+		<property name="patterns">
+			<list>
+				<!-- <value>com\.icbc\.nt\.bus\..*UploadBus\.fileUp.+</value> -->
+				<value>com\.icbc\.nt\.bus\.UserBus\.userMan.+</value> 
+			</list>
+		</property>
+	</bean>
+	<bean id="regexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" 
+		p:advice-ref="greetingAdvice">
+		<property name="patterns">
+			<list>
+				<!-- <value>com\.icbc\.nt\.bus\..*UploadBus\.fileUp.+</value> -->
+				<value>com\.icbc\.nt\.bus\.FileUploadBus\.fileUp.+</value> 
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="userBusTarget" class="com.icbc.nt.bus.UserBus" parent="busParent">
+		<property name="dayInterval" value="${consboff_applyfetch_timeout}"></property>
+	</bean> 
+	<bean id="userBus" class="org.springframework.aop.framework.ProxyFactoryBean"
+	p:interceptorNames="transAdvisor"
+	p:target-ref="userBusTarget"
+	p:proxyTargetClass="true"/>
+	
+	<bean id="fileUploadBus" class="org.springframework.aop.framework.ProxyFactoryBean"
+	p:interceptorNames="regexpAdvisor"
+	p:target-ref="fileUploadBusTarget"
+	p:proxyTargetClass="true"/>
+	
+	<bean id="batCalcScheduler" class="com.icbc.nt.scheduler.BatCalcScheduler" parent="schedulerParent"/>
+	<bean id="schedulerParent" class="com.icbc.nt.scheduler.SchedulerParent" parent="busParent">
+		<property name="daoObj" ref="daoParent"></property>
+	</bean>
+	
+<!-- <bean id="messagePush" class="com.icbc.message.push.MessagePush"></bean> -->
+</beans>

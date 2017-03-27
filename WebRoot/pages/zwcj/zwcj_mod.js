@@ -1,0 +1,114 @@
+//工资档次下拉框
+Ext.define("wlCombo",{  
+	extend:'Ext.form.ComboBox',
+	allowBlank:true,
+	blankText:'请选择工资档次',
+	fieldLabel:'工资档次',
+	emptyText:'请选择工资档次',
+	msgTarget:'side',
+	autoFitErrors:false,
+	labelAlign:'right',//label靠右
+	width:280,
+	listconfig:{
+		loadingText:'正在加载信息',
+		emptyText:'未找到匹配值',
+		maxHeight:100
+	},
+	allQuery:'allbook_json_ret',
+	queryParam:'searchbook',
+	minChars:3,
+	queryDelay:300,
+	store:Ext.data.StoreManager.lookup("wlComboStoreId"),
+	displayField:'wl_name',
+	valueField:'wl_id',
+	queryMode:'remote',
+	forceSelection:true,
+	editable:false
+});
+
+//工资等级下拉框
+Ext.define("wgCombo",{  
+	extend:'Ext.form.ComboBox',
+	allowBlank:true,
+	blankText:'请选择工资等级',
+	fieldLabel:'工资等级',
+	emptyText:'请选择工资等级',
+	msgTarget:'side',
+	autoFitErrors:false,
+	labelAlign:'right',//label靠右
+	width:280,
+	listconfig:{
+		loadingText:'正在加载信息',
+		emptyText:'未找到匹配值',
+		maxHeight:100
+	},
+	allQuery:'allbook_json_ret',
+	queryParam:'searchbook',
+	minChars:3,
+	queryDelay:300,
+	store:Ext.data.StoreManager.lookup("wgComboStoreId"),
+	displayField:'wg_name',
+	valueField:'wg_value',
+	queryMode:'remote',
+	forceSelection:true,
+	editable:false
+});
+
+//职务层级下拉选项类
+Ext.define("dtCombo",{  
+	extend:'Ext.form.ComboBox',
+//	name:'dtId',
+//	id:'dtId',
+	allowBlank:true,
+	blankText:'请选择职务层级',
+	fieldLabel:'职务层级',
+	emptyText:'请选择职务层级',
+	msgTarget:'side',
+	autoFitErrors:false,
+	labelAlign:'right',//label靠右
+	width:280,
+	listconfig:{
+		loadingText:'正在加载信息',
+		emptyText:'未找到匹配值',
+		maxHeight:100
+	},
+	allQuery:'allbook_json_ret',
+	queryParam:'searchbook',
+	minChars:3,
+	queryDelay:300,
+	store:Ext.data.StoreManager.lookup("dtComboStoreId"),
+	displayField:'dt_name',
+	valueField:'dt_id',
+	queryMode:'remote',
+	forceSelection:true,
+	editable:false
+});
+//资格认证下拉选项类
+Ext.define("ctCombo",{  
+	extend:'Ext.form.ComboBox',
+//	name:'ctId',
+//	id:'ctId',
+	allowBlank:true,
+	blankText:'请选择认证资格要求',
+	fieldLabel:'认证资格要求',
+	emptyText:'请选择认证资格要求',
+	msgTarget:'side',
+	autoFitErrors:false,
+	labelAlign:'right',//label靠右
+	width:280,
+	listconfig:{
+		loadingText:'正在加载信息',
+		emptyText:'未找到匹配值',
+		maxHeight:100
+	},
+	allQuery:'allbook_json_ret',
+	queryParam:'searchbook',
+	minChars:3,
+	queryDelay:300,
+	store:Ext.data.StoreManager.lookup("ctComboStoreId"),
+	displayField:'ct_name',
+	valueField:'ct_id',
+	queryMode:'remote',
+	forceSelection:true,
+	editable:false
+});

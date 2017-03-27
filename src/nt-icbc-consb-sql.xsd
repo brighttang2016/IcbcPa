@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.nantian.com.cn/consb/schema/sql" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.nantian.com.cn/consb/schema/sql" 
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	
+	<xsd:element name="consb">
+		<xsd:annotation><xsd:documentation><![CDATA[耗材交易配置根]]></xsd:documentation></xsd:annotation>
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="sql"/>
+			</xsd:choice>
+			<xsd:attribute name="id" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[交易码]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="name" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[交易名称]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="sql">
+		<xsd:annotation><xsd:documentation><![CDATA[sql语句节点]]></xsd:documentation></xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="name" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[交易sql名称]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="odName" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[指定排序列字段名]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="odWay" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[指定排序方式【升序：asc 降序：desc】]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="updFlag" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[dml类型【1：增加;2：修改;3：删除；4：执行自动拼装查询条件语句；5：执行手动查询条件语句】]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="queryType" use="required" type="xsd:string">
+				<xsd:annotation><xsd:documentation><![CDATA[查询类型：1 精确查找 2：模糊查找]]></xsd:documentation></xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

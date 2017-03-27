@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+.modal-content{width:600px}
+
+	.colback{background-color:#FFF;}
+    /*#fix{position: fixed; background-image:url(../images/sys/navigator_backimage.jpg);background-repeat:repeat;top:0px;left:0px;right:0px;height:50px;z-index:1;font-size:36px};<!--通过指定导航栏的z坐标，使得顶部导航栏一直浮动于最上方-->*/
+    #nav{position: fixed; background-color:#6289AE;background-repeat:repeat;top:0px;left:0px;right:0px;height:60px;z-index:4;font-size:36px;filter:alpha(Opacity=100);};<!--通过指定导航栏的z坐标，使得顶部导航栏一直浮动于最上方
+	.style1{font-size:14px}
+	.style2{display:inline;font-size:14px;font-color:black}
+	a{text-decoration:none;cursor:pointer}
+	a:link{color:black;}
+	a:visited{color:black}
+	a:hover{text-decoration:underline;color:#597C7F}
+	.tableclass{border:0px solid red;padding-left:10px;padding-right:10px;margin-top:0px}
+	.mynav{background-color:#6289AE}
+	.myframe{border:1px solid red;width:100%}
+	.frameBody{padding-top:10px}
+	.foot{padding-bottom:20px;font-size:12px;text-align:center}
+	.inlineClass{display:inline}
+	.borderClass{border:0px solid #3A95C2}
+	
+	div.centent {
+   float:left;
+   text-align: center;
+   margin: 10px;
+}
+/*
+#queryDiv span { 
+	display:block; 
+	margin:2px 2px;
+	padding:4px 10px; 
+	/*background:#3A95C2;*/
+	cursor:pointer;
+	font-size:12px;
+	color:white;
+}*/
+.formLabel{border:0px solid green;width:100px;font-size:16px;color:#fff;padding-top:4px}
+.hide{display:none}
+
+.ctrlbar {
+ }
+/*控制菜单按纽样式*/
+.ctbutton{
+	background: transparent url(../images/sys/ctrl_close.png) no-repeat center center; 
+	border:0px solid #bb2d00; 
+	COLOR:#CD0806; 
+	FONT-SIZE: 8pt; 
+	FONT-STYLE: normal; 
+	FONT-VARIANT: normal; 
+	HEIGHT:70px; 
+	width:15px;
+	LINE-HEIGHT: normal; 
+	a1:hover;
+	cursor:pointer;
+	
+	font-family:"宋体",Arial, Helvetica, sans-serif;
+} 
+
+/*订单详情css*/
+.cleanBack{background-color:#fff;}
+.leaderNote{height:102%;overflow:auto; width:100%; border:1px solid #D5D5D5;font-size:15px;margin-left:-2px;margin-top:-2px;margin-bottom:-2px}
+.leaderNote2{height:102%;overflow:auto; width:100.3%; border:1px solid #D5D5D5;font-size:15px;margin-left:-1px;margin-top:-1px;margin-bottom:-2px}
+
+.leaderNote3{height:102%;overflow:auto; width:100.3%; border-bottom:1px solid #D5D5D5;font-size:15px;}
+.leaderNote4{min-height:100px; width:100.3%; border-bottom:1px solid #D5D5D5;font-size:15px;}
+.tdtitle{background-color:#F0F0F0;width:150px;text-align:center;font-weight:800;font-size:18px;padding:15px 0px 15px 0px;}
+
+.contentHeight{height:100px}
+.divClass1{width:750px;margin:auto;border:1px solid #D5D5D5;}
+.orderDetailTd{background-color:#fff;padding-top:6px;font-size:15px}
+.orderDetailColName{background-color:#3A95C2;color:#fff;font-weight:bold;font-size:15px}
+.assessory2{color:#597C7F;font-size:18px;font-weight: 800;background:url(../images/sys/accessory_back.png) no-repeat left center;border:0px solid red;padding-left:20px;padding-top:2px}
+
+
+
+/*导航页面样式*/
+
+

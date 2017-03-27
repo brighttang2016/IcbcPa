@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"  
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+				http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+				http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr/spring-dwr-3.0.xsd">
+	
+	
+	<!-- 文件说明：dwr上下文 -->
+	<!-- 全局拦截器配置 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="1" />
+	</bean>
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="order" value="2" />
+	</bean>
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="order" value="3" />
+		<property value="true" name="alwaysUseFullPath"></property>
+		<property name="mappings">
+			<props>
+				<prop key="/dwr/**">dwrController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<dwr:configuration/>
+	<dwr:annotation-scan scanRemoteProxy="true" base-package="com.icbc.message.push"/>
+	<dwr:url-mapping/>
+	<dwr:controller id="dwrController" debug="true">
+		<dwr:config-param name="allowScriptTagRemoting" value="true"/>
+		<dwr:config-param name="crossDomainSessionSecurity" value="true"/>
+		<dwr:config-param name="activeReverseAjaxEnabled" value="true"/>
+		<dwr:config-param name="initApplicationScopeCreatorsAtStartup" value="true"/>
+		<dwr:config-param name="maxWaitAfterWrite" value="3000"/>
+	</dwr:controller>
+	<bean id="messagePush" class="com.icbc.message.push.MessagePush" scope="prototype" autowire="byName" >
+		<dwr:remote javascript="MessagePush">
+			<dwr:include method="onPageLoad"/>
+		</dwr:remote>
+	</bean>
+	
+	<bean id="mpc" class="com.icbc.message.push.MessagePushClient"/>
+	<bean id="mph" class="com.icbc.message.push.MessagePushHelper"/>
+	
+</beans>
